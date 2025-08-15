@@ -5,16 +5,16 @@ from transformers import pipeline
 from PIL import Image
 import os
 
-UPLOAD_FOLDER = os.path.abspath('../Front-end/images')
+UPLOAD_FOLDER = os.path.abspath('images')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
-# Load Hugging Face image classifier
 classifier = pipeline("image-classification", model="google/vit-base-patch16-224")
-
 
 app = Flask(__name__)
 CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -30,7 +30,6 @@ def upload_file():
     file.save(filepath)
 
     try:
-        # Load and classify the image
         img = Image.open(filepath).convert("RGB")
         result = classifier(img)
         top_result = result[0]
@@ -48,7 +47,3 @@ def upload_file():
 @app.route('/images/<filename>')
 def get_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
-if __name__ == '__main__':
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    app.run(debug=True)
