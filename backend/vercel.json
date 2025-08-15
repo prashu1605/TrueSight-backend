@@ -3,7 +3,7 @@
  "builds": [
   {
    "src": "app.py",
-   "use": "@vercel/node",
+   "use": "@vercel/python",
    "config": { "includeFiles": ["dist/**"] }
   }
  ],
@@ -13,4 +13,5 @@
    "dest": "app.py"
   }
  ]
+
 }
