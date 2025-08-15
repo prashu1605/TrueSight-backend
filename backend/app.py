@@ -49,6 +49,5 @@ def upload_file():
 def get_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-if __name__ == '__main__':
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    app.run(debug=True)
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
